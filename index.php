@@ -9,10 +9,10 @@
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session </p>
-        <div class="col-md-12">
-              <span class="alert alert-green"></span>
-              <span class="alert alert-red"></span>
-          </div>
+        <div class="">
+          <span class="alert alert-green"></span>
+          <span class="alert alert-red"></span>
+        </div>
         <form action="javascript:;" method="post">
           <div class="form-group has-feedback">
             <input type="email" class="form-control" id = "email" placeholder="Email">
