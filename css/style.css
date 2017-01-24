@@ -17,7 +17,12 @@
 #content-empty-exam-question{display: none;}
 #add-objective-exam-question{display: none;}
 #add-subjective-exam-question{display: none;}
-
+#content-main-assignment{display: none;}
+#content-empty-assignment{display: none;}
+#content-class-assignment-question{display: none;}
+#content-empty-assignment-question{display: none;}
+#add-objective-assignment-question{display: none;}
+#add-subjective-assignment-question{display: none;}
 
 /*coustomizing date picker*/
 .ui-datepicker {
