@@ -11,6 +11,12 @@
 #student-assignment-result-body{display: none;}
 #view-exam-published-result{display: none;}
 #student-exam-result-body{display: none;}
+#content-main-exam{display: none;}
+#content-empty-exam{display: none;}
+#content-class-exam-question{display: none;}
+#content-empty-exam-question{display: none;}
+#add-objective-exam-question{display: none;}
+#add-subjective-exam-question{display: none;}
 
 
 /*coustomizing date picker*/

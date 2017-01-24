@@ -50,6 +50,8 @@ $(document).ready(function(){
 
 		var teacher_details = teachers_json.filter((teacher)=>teacher.id == teacher_id);
 		var class_details = class_json;
+		console.log(teachers_json);
+		console.log(teacher_details);
 		if (teacher_details.length!=0) {
 			var fname = teacher_details[0].fname;
 			var mname = teacher_details[0].mname;
