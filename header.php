@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/data-table.css">
   <link rel="stylesheet" href="css/style.css">
   <link href="css/datedropper.min.css" rel="stylesheet" type="text/css" />
+  <link href="css/jquery-ui.css" rel="stylesheet" type="text/css" />
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -72,9 +73,8 @@
               <ul id = "class-menu" class="treeview-menu">
               </ul>
             </li>
-            <li class="menu business"><a href="classes.php"><i class="fa fa-briefcase"></i> <span>Classes</span></a></li>
-            <li class="menu business"><a href="business.php"><i class="fa fa-briefcase"></i> <span>Sections</span></a></li>
-            <li class="menu category"><a href="category.php"><i class="fa fa-leaf"></i> <span>Category</span></a></li>        
+            <li class="menu users"><a href="new-students.php"><i class="fa fa-briefcase"></i> <span>New Students</span></a></li>      
+            <li class="menu business"><a href="classes.php"><i class="fa fa-briefcase"></i> <span>Classes</span></a></li>      
           </ul><!-- /.sidebar-admin-menu -->
 
           <!-- Sidebar teacher Menu -->

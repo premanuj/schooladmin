@@ -22,6 +22,7 @@ var listTeachers = function(){
 			success : function(response){
 				if(response.status===105){
 					var str;
+					console.log(response.data);
 					$.each(response.data,function(keyRow, valueRow){
 						var fname = valueRow['fname'];
 						var mname = valueRow['mname'];
@@ -32,6 +33,16 @@ var listTeachers = function(){
 						var dob = valueRow['dob'];
 						var join_date = valueRow['join_date'];
 						var id = valueRow['id'];
+						if(fname==null)
+							fname = "Not available";
+						if(mname==null)
+							mname = " "
+						if (lname==null)
+							lname = " "
+						if(address==null)
+							address = "Not available";
+						if(contact==null)
+							contact = "Not available"
 						var json = {
 						"fname": fname,
 						"mname": mname,
@@ -47,8 +58,8 @@ var listTeachers = function(){
 							str+='<td class="col-email">'+email+'</td>';
 							str+='<td class="col-contact">'+contact+'</td>';
 							str+='<td class="col-address">'+address+'</td>';
-							str+='<td class="col-edit"><a data-toggle="modal" href="#editModal" class="btn btn-sm btn-primary btn-flat pull-left edit-teacher" data = "'+valueRow['id']+'">Edit</a></td>';
-							str+='<td class="col-delete"><a href="#delete" class="btn btn-sm btn-primary btn-flat pull-left" id="delete-teacher" data="'+valueRow['id']+'">Delete</a></td>';
+							str+='<td class="col-edit"><a data-toggle="modal" href="#editModal" class="btn btn-sm btn-primary btn-flat pull-left edit-teacher" teacher-id = "'+valueRow['user_id']+'" user-id = "'+valueRow['id']+'">Edit</a></td>';
+							str+='<td class="col-delete"><a href="#delete" class="btn btn-sm btn-primary btn-flat pull-left" id="delete-teacher" teacher-id = "'+valueRow['user_id']+'" user-id="'+valueRow['id']+'">Delete</a></td>';
 							str+='</tr>';
 						teachers_json.push(json);
 					});
@@ -64,14 +75,14 @@ var listTeachers = function(){
 		});
 }
 
-var listAllTeacher= function(){
-	//listTeachers();
-	//console.log(teachers_json);
+// var listAllTeacher= function(){
+// 	//listTeachers();
+// 	//console.log(teachers_json);
 
-  $( "listTeachers" ).promise().done(function(valueRow) {
-    console.log(valueRow);
-  });
-}
+//   $( "listTeachers" ).promise().done(function(valueRow) {
+//     console.log(valueRow);
+//   });
+// }
 
 var listClasses = function(){
 	$.ajax({
@@ -80,14 +91,12 @@ var listClasses = function(){
 			dataType: 'json',
 			success : function(response){
 				if(response.status===105){
-					//console.log(response.data);
 					var classData = response.data;
 					var uniqueClassData = classData.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
 					console.log(uniqueClassData);
 					$.each(response.data,function(keyRow, valueRow){
-						classes = valueRow['grade'];
-						//console.log(classes);
-						class_id = valueRow['id'];
+						var classes = valueRow['grade'];
+							class_id = valueRow['id'];
 						var json_data = {
 						"class_id":class_id,
 						"class_grade":classes
@@ -113,6 +122,7 @@ var listStudents = function(class_id){
 		type : 'GET',
 		dataType : 'json',
 		success : function(response){
+			console.log(response.data);
 			if (response.status===105) {
 				var str;
 				$.each(response.data, function(keyRow, valueRow){
@@ -141,7 +151,6 @@ var listStudents = function(class_id){
 					}
 							str += '<tr class="row-student">';
 							str+='<td class="col-name">'+fname +" "+ mname +" "+lname + '</td>';
-							str+='<td class="col-grade">'+grade+ '</td>';
 							str+='<td class="col-email">'+email+'</td>';
 							str+='<td class="col-contact">'+contact+'</td>';
 							str+='<td class="col-address">'+address+'</td>';

@@ -11,6 +11,15 @@ $(document).ready(function(){
 		var email = $("#email").val();
 		var password = $("#password").val();
 		var username = $("#username").val();
+		if (!ifBlank("Email", email)){
+		    return false;
+		}
+		if (!ifBlank("Username", username)){
+		    return false;
+		}
+		if (!ifBlank("Password", password)){
+		    return false;
+		}
 		$.ajax({
 			url : basepath + "/roles/2/users",
 			type : 'POST',
@@ -62,10 +71,12 @@ $(document).delegate(".edit-student", "click", function () {
 			if(class_id === grade_id){
 				console.log('one');
 				console.log(class_grade);
-				$("#class-default").val(class_grade);
-				$("#class-default").attr("value", class_id);
+				// $("#class-default").val(class_grade);
+				// $("#class-default").attr("value", class_id);
+				str += '<option value = "'+grade_id+'" selected> Grade '+class_value['class_grade']+'</option>';
+			}else{
+				str += '<option value = "'+grade_id+'" > Grade '+class_value['class_grade']+'</option>';
 			}
-			str += '<option value = "'+grade_id+'" > Grade '+class_value['class_grade']+'</option>';
 		});
 		$("#class_id").append(str);
 		

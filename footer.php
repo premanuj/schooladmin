@@ -17,5 +17,6 @@
   <script src="js/datedropper.min.js"></script>
     <script type="text/javascript" src="scripts/admin.js"></script>
   <script type="text/javascript" src="scripts/commonFunctions.js"></script>
+  <script type="text/javascript" src="js/jquery-ui.min.js"></script>
   </body>
 </html>

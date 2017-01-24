@@ -25,7 +25,6 @@ include("header.php");
                         <thead>
                             <tr>
                                 <th><i class="fa fa-sort"></i> Name</th>
-                                <th><i class="fa fa-sort"></i> Grade</th>
                                 <th><i class="fa fa-sort"></i> Email</th>
                                 <th><i class="fa fa-sort"></i> Phone No.</th>
                                 <th><i class="fa fa-sort"></i> Address</th>
@@ -39,7 +38,7 @@ include("header.php");
                 </div><!-- /.table-responsive -->
             </div><!-- /.box-body -->
             <div class="box-footer clearfix">
-                <a data-toggle="modal" href="#addModal" class="btn btn-sm btn-primary btn-flat pull-left">Add Students</a>
+                <!-- <a data-toggle="modal" href="#addModal" class="btn btn-sm btn-primary btn-flat pull-left">Add Students</a> -->
             </div><!-- /.box-footer -->
         </div><!-- /.box -->        
     </section><!-- /.content -->
@@ -54,7 +53,8 @@ include("header.php");
             </div>
             <div class="modal-body">
                 <form id="main-contact-form" class="contact-form" name="contact-form">
-                    
+                    <span class="alert-red"></span>
+                    <span class="alert-green"></span>
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
                             <label for="date">Email:</label>

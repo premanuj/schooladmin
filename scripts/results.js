@@ -346,8 +346,8 @@ $(document).ready(function(){
 		$("#result-assignment-body").hide();
 		$("#view-assignment-answer-body").hide();
 		$("#view-exam-answer-body").hide();
-		$("#student-exam-answer-body").hide();
-		$("#student-assignment-answer-body").show();
+		$("#student-exam-answer-body").show();
+		$("#student-assignment-answer-body").hide();
 		getStudents(work_id, "exam");
 	}
 
@@ -356,8 +356,10 @@ $(document).ready(function(){
 		$("#result-assignment-body").hide();
 		$("#view-assignment-answer-body").hide();
 		$("#view-exam-answer-body").hide();
-		$("#student-assignment-answer-body").hide();
-		$("#student-exam-answer-body").show();
+		$("#student-assignment-answer-body").show();
+		$("#student-mark-submited").hide();
+		$("#student-exam-answer-body").hide();
+		console.log('assignment_answer_details');
 		getStudents(work_id, "assignment");
 	}
 
@@ -690,8 +692,9 @@ $("#submit-exam-mark").click(function(){
 		console.log(answers);
 	});
 
-	$("#back-student-assignment-list").click(function(){
+	$(".back-student-assignment-list").click(function(){
 		let work_id = localStorage.getItem('work_id');
+		console.log('assignment here');
 		assignment_answer_details(work_id);
 	});
 

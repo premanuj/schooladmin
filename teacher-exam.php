@@ -276,6 +276,8 @@ include("header.php");
             <div class="modal-header">                  
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
                 <h4 class="modal-title">New Exam</h4>
+                <span class="alert-green"></span>
+                <span class="alert-red"></span>
             </div>
             <div class="modal-body">
                 <form id="main-contact-form" class="contact-form" name="contact-form">
@@ -289,7 +291,7 @@ include("header.php");
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
                             <label for="username">Submission Date:</label>
-                            <input type="date" name="submit-date"  id="submit-date" class="form-control date"  placeholder="Please enter new submit date">             
+                            <input type="text" name="submit-date"  id="submit-date" class="form-control datepicker-inline date"  placeholder="Please enter new submit date">             
                         </div>
                     </div>
 
@@ -322,7 +324,7 @@ include("header.php");
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
                             <label for="new-submit-date">Submit Date:</label>
-                            <input type="date" name="new-submit-date"  id="new-submit-date" class="form-control date" value = "">             
+                            <input type="text" name="new-submit-date"  id="new-submit-date" class="form-control datepicker-inline date" value = "">             
                         </div>
                     </div>
                 </form>

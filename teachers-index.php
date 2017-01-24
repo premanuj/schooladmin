@@ -47,11 +47,11 @@ include("header.php");
 					</div>
 					<div class="form-group">
 						<label for="old-dob">Date Of Birth: </label>
-						<p class = "form-control" id = 'old-dob'></p>
+						<p class = "form-control datepicker-inline" id = 'old-dob'></p>
 					</div>
 					<div class="form-group">
 						<label for="old-join-date">Join Date: </label>
-						<p class = "form-control" id = 'old-join-date'></p>
+						<p class = "form-control datepicker-inline" id = 'old-join-date'></p>
 					</div>
 
 				</form>
@@ -97,20 +97,20 @@ include("header.php");
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
                             <label for="dob">Date of Birth:</label>
-                            <input type="text" name="dob"  id="dob" data-large-default="true" class="form-control date"  value="">                           
+                            <input type="text" name="dob"  id="dob" data-large-default="true" class="form-control datepicker-inline date"  value="">                           
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
                             <label for="join-date">Join Date:</label>
-                            <input type="text" name="join-date"  id="join-date" class="form-control date" value="">
+                            <input type="text" name="join-date"  id="join-date" class="form-control datepicker-inline date" value="">
                             
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
                             <label for="title">Address:</label>
-                            <input type="text" name="address"  id="new-address" class="form-control date" value="">             
+                            <input type="text" name="address"  id="address" class="form-control date" value="">             
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
@@ -155,26 +155,26 @@ include("header.php");
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
                             <label for="lname">Last Name:</label>
-                            <input type="text" name="lname" id="new-lname" class="form-control date" value="">             
+                            <input type="text" name="lname" id="new-lname" class="form-control date">             
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
                             <label for="dob">Date of Birth:</label>
-                            <input type="text" name="dob"  id="new-dob" data-large-default="true" class="form-control date"  value="">                           
+                            <input type="text" name="dob"  id="new-dob" data-large-default="true" class="form-control datepicker-inline date">                           
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
                             <label for="join-date">Join Date:</label>
-                            <input type="text" name="join-date"  id="new-join-date" class="form-control date" value="">
+                            <input type="text" name="join-date"  id="new-join-date" class="form-control datepicker-inline date">
                             
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
                             <label for="title">Address:</label>
-                            <input type="text" name="address"  id="new-address" class="form-control date" value="">             
+                            <input type="text" name="address"  id="new-address" class="form-control">             
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12">

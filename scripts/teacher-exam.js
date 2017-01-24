@@ -1,13 +1,18 @@
 $(document).ready(function(){
 	listTeachers();
 	listClasses();
+	$('.datepicker-inline').datepicker({
+    	startDate: '-3d'
+	});
 	var count = 1;
 	var teacher_id = localStorage.getItem('teacher_id');
+	console.log("teacher_id:-"+teacher_id);
 	var teacher_details_info = [];
 	$("#add-teacher-profile").hide();	
 	var teacherProfile = function(){
 		$.ajax({
-			url: basepath+"/roles/3/teachers",
+			url: basepath+"/roles/3/users/"+teacher_id+"/teachers",
+			// url: basepath+"/roles/3/teachers",
 			type: 'GET',
 			dataType: 'json',
 			success: function(response){
@@ -26,6 +31,7 @@ $(document).ready(function(){
 						var user_id = single_teacher_data[0]['user_id'];
 						var id = single_teacher_data[0]['id'];
 						var email = single_teacher_data[0]['email'];
+						console.log("t_id: "+user_id);
 						localStorage.setItem('t_id', id);
 						$("#old-fname").html(fname);
 						$("#old-mname").html(mname);
@@ -79,6 +85,7 @@ var classAssignment = function(){
 		type: "GET",
 		dataType: "json",
 		success: function(response){
+			console.log(response);
 			var str;
 			if(response.status===105){
 				$.each(response.data, function(keyRow, valueRow){
@@ -131,7 +138,7 @@ $(document).delegate(".view-exam", "click", function(){
 							str+='<td class="col-name">'+assignment_title+ '</td>';
 							str+='<td class="col-name">'+created_date+ '</td>';
 							str+='<td class="col-name">'+submit_date+ '</td>';
-							str+='<td class="col-view"><a data-toggle="modal" href="#editExamModal" class="btn btn-sm btn-primary btn-flat pull-left edit-exam" data = "'+work_id+'">Edit</a></td>';
+							str+='<td class="col-view"><a data-toggle="modal" href="#editExamModal" class="btn btn-sm btn-primary btn-flat pull-left edit-exam" data = "'+work_id+'" subject_id = "'+subject_id+'">Edit</a></td>';
 							str+='<td class="col-view"><a class="btn btn-sm btn-primary btn-flat pull-left view-question" data = "'+work_id+'" subject_id = "'+subject_id+'">Questions</a></td>';
 							str+='<td class="col-view"><a class="btn btn-sm btn-primary btn-flat pull-left delete-exam" data = "'+work_id+'" subject_id = "'+subject_id+'">Delete</a></td>';
 							str+='</tr>';
@@ -153,6 +160,56 @@ $(document).delegate(".view-exam", "click", function(){
 	});
 
 });
+
+function viewExam(subject_id){
+	$("#add-exam").attr("data", subject_id);
+	$("#content-class-exam").hide();
+	$.ajax({
+		url: basepath+"/teachers/"+teacher_id+"/subjects/"+subject_id+"/works",
+		type: "GET",
+		dataType: "json",
+		success: function(response){
+			var str = " "; 
+			var work_id;
+			if(response.status===105){
+				
+				if(response.data.length===0){
+					$("#content-main-exam").hide();
+					$("#content-empty-exam").show();
+				}else{
+					$("#content-main-exam").show();
+					$.each(response.data, function(keyRow, valueRow){
+						var assignment_title = valueRow['work_title'];
+						var created_date = valueRow['create_date'];
+						var submit_date = valueRow['submit_date'];
+						work_id = valueRow['id'];
+						var work_type = valueRow["work_type"];
+						if(work_type=='e'){
+							str += '<tr class="row-student">';						
+							str+='<td class="col-name">'+assignment_title+ '</td>';
+							str+='<td class="col-name">'+created_date+ '</td>';
+							str+='<td class="col-name">'+submit_date+ '</td>';
+							str+='<td class="col-view"><a data-toggle="modal" href="#editExamModal" class="btn btn-sm btn-primary btn-flat pull-left edit-exam" data = "'+work_id+'" subject_id = "'+subject_id+'">Edit</a></td>';
+							str+='<td class="col-view"><a class="btn btn-sm btn-primary btn-flat pull-left view-question" data = "'+work_id+'" subject_id = "'+subject_id+'">Questions</a></td>';
+							str+='<td class="col-view"><a class="btn btn-sm btn-primary btn-flat pull-left delete-exam" data = "'+work_id+'" subject_id = "'+subject_id+'">Delete</a></td>';
+							str+='</tr>';
+						}
+					});
+					if(str!=" "){
+						$("#body-main-exam").html(str);
+						$("#edit_exam_save").attr("subject_id", subject_id);
+						$("#edit_exam_save").attr("work_id", work_id);
+					}else{
+						$("#content-main-exam").hide();
+						$("#content-empty-exam").show();
+					}
+				}
+
+			}
+		}
+
+	});
+}
 
 
 $(document).delegate(".view-question", "click", function(){
@@ -666,9 +723,37 @@ $(document).delegate(".delete-exam", "click", function(){
 
 });;
 
+$(document).delegate('.edit-exam', 'click', function(){
+	let work_id = $(this).attr('data');
+		subject_id = $(this).attr('subject_id');
+
+	$.ajax({
+		url: basepath+"/teachers/"+teacher_id+"/subjects/"+subject_id+"/works",
+		type: "GET",
+		dataType: "json",
+		success: function(response){
+			if(response.status===105){
+				let data = response.data;
+					data = data.filter((work, index)=>work.id==work_id);
+					console.log(data);
+				let exam_title = data[0].work_title;
+					submit_date = data[0].submit_date;
+				$("#new-exam-title").val(exam_title);
+				$("#new-submit-date").val(submit_date);
+			}
+		}
+	});
+	
+});
+
 $("#edit_exam_save").click(function(){
 	var exam_title = $("#new-exam-title").val();
-	var submit_date = $("#new-submit-date").val();
+	var submit_date = $("#new-submit-date").datepicker('getDate');
+		submit_date = new Date(submit_date);
+		yy = submit_date.getFullYear();
+		mm = submit_date.getMonth();
+		dd = submit_date.getDate();
+		submit_date = yy+'-'+mm+'-'+dd;
 	var subject_id = $(this).attr("subject_id");
 	var work_id = $(this).attr("work_id");
 	if (ifBlank("Exam-title", exam_title) === false)
@@ -683,9 +768,8 @@ $("#edit_exam_save").click(function(){
 		success: function(response){
 			if(response.status===104){
 				$("#editExamModal").modal('hide');
-				$('.view-exam').click();
-				//$("#content-main-exam").show();
-				//$("#content-empty-exam").hide();
+				viewExam(subject_id);
+				//$('.view-exam').click();
 			}
 		}
 	});
@@ -720,11 +804,19 @@ $("#edit-teacher-profile").click(function(){
 
 $("#add-exam").click(function(){
 	var exam_title = $("#exam-title").val();
-	var submit_date = $("#submit-date").val();
+	// var submit_date = $("#submit-date").val();
+	var submit_date = $("#submit-date").datepicker('getDate');
+		submit_date = new Date(submit_date);
+	let yy = submit_date.getFullYear();
+		mm = submit_date.getMonth();
+		dd = submit_date.getDate();
+
+	submit_date = yy+'-'+mm+'-'+dd;
+
 	if (ifBlank("Exam-title", exam_title) === false)
           return false;
-      	if (ifBlank("Submit Date", submit_date) === false)
-          return false;
+    if (ifBlank("Submit Date", submit_date) === false)
+        return false;
 	var subject_id = $(this).attr('data');
 	$.ajax({
 		url : basepath+"/teachers/"+teacher_id+"/subjects/"+subject_id+"/works",

@@ -134,8 +134,8 @@ include("header.php");
                 </form>
             </div>
             <div class="modal-footer" style="clear: both;">
-                <a href="javascript:;" class="btn btn-sm btn-default" data-dismiss="modal">Close</a>
                 <a href="javascript:;" class="btn btn-primary btn-sm" id="section_register">Save</a>
+                <a href="javascript:;" class="btn btn-sm btn-default" data-dismiss="modal">Close</a>
             </div>
         </div>
     </div>

@@ -2,13 +2,17 @@ $(document).ready(function(){
 
 	listTeachers();
 	listClasses();
+	$('.datepicker-inline').datepicker({
+    	startDate: '-3d'
+	});
 
 	var teacher_id = localStorage.getItem('teacher_id');
+	console.log("teacher_id:-"+teacher_id);
 	var teacher_details_info = [];
 	$("#add-teacher-profile").hide();	
 	var teacherProfile = function(){
 		$.ajax({
-			url: basepath+"/roles/3/teachers",
+			url: basepath+"/roles/3/users/"+teacher_id+"/teachers",
 			type: 'GET',
 			dataType: 'json',
 			success: function(response){
@@ -16,11 +20,13 @@ $(document).ready(function(){
 					var str ;
 					var teacher_data = response.data;
 					var single_teacher_data = teacher_data.filter((teacher, index, arr)=>arr[index].user_id==teacher_id)
+					console.log(single_teacher_data);
 					if (single_teacher_data.length>0) {
 						var fname = single_teacher_data[0]['fname'];
 						var mname = single_teacher_data[0]['mname'];
 						var lname = single_teacher_data[0]['lname'];
 						var address = single_teacher_data[0]['address'];
+						console.log(address);
 						var contact = single_teacher_data[0]['contacts'];
 						var dob = single_teacher_data[0]['dob'];
 						var join_date = single_teacher_data[0]['join_date'];
@@ -49,6 +55,7 @@ $(document).ready(function(){
 							"user_id" : user_id
 						}
 						teacher_details_info.push(json);	
+						console.log(teacher_details_info);
 
 					}else{
 						$("#teacher-profile-body").hide();
@@ -74,12 +81,14 @@ $(document).ready(function(){
 		$("#add-subjective-assignment-question").hide();
 		teacherProfile();
 		var t_id = localStorage.getItem('t_id');
-		console.log(t_id);
+		//let t_id = localStorage.getItem('teacher_id');
+		console.log("teacher_id: "+t_id);
 		$.ajax({
 			url: basepath+"/teachers/"+t_id+"/subjects",
 			type: "GET",
 			dataType: "json",
 			success: function(response){
+				console.log(response.data);
 				var str;
 				if(response.status===105){
 					$.each(response.data, function(keyRow, valueRow){
@@ -132,7 +141,7 @@ $(document).ready(function(){
 								str+='<td class="col-name">'+assignment_title+ '</td>';
 								str+='<td class="col-name">'+created_date+ '</td>';
 								str+='<td class="col-name">'+submit_date+ '</td>';
-								str+='<td class="col-view"><a data-toggle="modal" href="#editAssignmentModal" class="btn btn-sm btn-primary btn-flat pull-left edit-assignment" data = "'+work_id+'">Edit</a></td>';
+								str+='<td class="col-view"><a data-toggle="modal" href="#editAssignmentModal" class="btn btn-sm btn-primary btn-flat pull-left edit-assignment" subject_id = "'+subject_id+'" data = "'+work_id+'">Edit</a></td>';
 								str+='<td class="col-view"><a class="btn btn-sm btn-primary btn-flat pull-left view-question" data = "'+work_id+'" subject_id = "'+subject_id+'">Questions</a></td>';
 								str+='<td class="col-view"><a class="btn btn-sm btn-primary btn-flat pull-left delete-assignment" data = "'+work_id+'" subject_id = "'+subject_id+'">Delete</a></td>';
 								str+='</tr>';
@@ -155,7 +164,83 @@ $(document).ready(function(){
 
 	});
 
+function viewAssignment(subject_id){
 
+	//var subject_id = localStorage.getItem("subject_id");
+		$("#add-assignment").attr("data", subject_id);
+		$("#content-class-assignment").hide();
+		$.ajax({
+			url: basepath+"/teachers/"+teacher_id+"/subjects/"+subject_id+"/works",
+			type: "GET",
+			dataType: "json",
+			success: function(response){
+				var str = " "; 
+				var work_id;
+				if(response.status===105){
+					
+					if(response.data.length===0){
+						$("#content-main-assignment").hide();
+						$("#content-empty-assignment").show();
+					}else{
+						$("#content-main-assignment").show();
+						$.each(response.data, function(keyRow, valueRow){
+							var assignment_title = valueRow['work_title'];
+							var created_date = valueRow['create_date'];
+							var submit_date = valueRow['submit_date'];
+							work_id = valueRow['id'];
+							var work_type = valueRow["work_type"];
+							if(work_type=='h'){
+								str += '<tr class="row-student">';						
+								str+='<td class="col-name">'+assignment_title+ '</td>';
+								str+='<td class="col-name">'+created_date+ '</td>';
+								str+='<td class="col-name">'+submit_date+ '</td>';
+								str+='<td class="col-view"><a data-toggle="modal" href="#editAssignmentModal" class="btn btn-sm btn-primary btn-flat pull-left edit-assignment" data = "'+work_id+'">Edit</a></td>';
+								str+='<td class="col-view"><a class="btn btn-sm btn-primary btn-flat pull-left view-question" data = "'+work_id+'" subject_id = "'+subject_id+'">Questions</a></td>';
+								str+='<td class="col-view"><a class="btn btn-sm btn-primary btn-flat pull-left delete-assignment" data = "'+work_id+'" subject_id = "'+subject_id+'">Delete</a></td>';
+								str+='</tr>';
+							}
+						});
+						if(str!=" "){
+							$("#body-main-assignment").html(str);
+							$("#edit_assignment_save").attr("subject_id", subject_id);
+							$("#edit_assignment_save").attr("work_id", work_id);
+						}else{
+							$("#content-main-assignment").hide();
+							$("#content-empty-assignment").show();
+						}
+					}
+
+				}
+			}
+
+		});
+
+}
+
+$(document).delegate(".edit-assignment", "click", function(){
+	var work_id = $(this).attr('data');
+	var subject_id = $(this).attr('subject_id');
+	$.ajax({
+		url: basepath+"/teachers/"+teacher_id+"/subjects/"+subject_id+"/works",
+		type: "get",
+		dataType: "json",
+		success: function(response){
+			if(response.status===105){
+				let data = response.data;
+				console.log(data);
+				let filter_data = data.filter((single_data, index)=>single_data.id == work_id);
+					work_title = filter_data[0].work_title;
+					submit_date = filter_data[0].submit_date;
+
+				$("#new-assignment-title").val(work_title);
+				$("#new-submit-date").val(submit_date);
+			}
+		},
+		error: function(err){
+			console.log(err);
+		}
+	});
+});
 
 $(document).delegate(".delete-assignment", "click", function(){
 	console.log("hkbkj");
@@ -696,6 +781,13 @@ $(document).delegate(".delete-assignment", "click", function(){
 $("#edit_assignment_save").click(function(){
 	var exam_title = $("#new-assignment-title").val();
 	var submit_date = $("#new-submit-date").val();
+	var submit_date = $("#new-submit-date").datepicker('getDate');
+			submit_date = new Date(submit_date);
+		var yy = submit_date.getFullYear();		
+		var mm = submit_date.getMonth();
+		var dd = submit_date.getDate();
+			submit_date = yy+'-'+mm+'-'+dd;
+			console.log(submit_date);
 	var subject_id = $(this).attr("subject_id");
 	var work_id = $(this).attr("work_id");
 	if (ifBlank("Exam-title", exam_title) === false)
@@ -711,6 +803,7 @@ $("#edit_assignment_save").click(function(){
 			console.log(response);
 			if(response.status===104){
 				$("#editAssignmentModal").modal('hide');
+				viewAssignment(subject_id);
 				console.log('success');
 				//$('.view-assignment').click();
 				//$("#content-main-assignment").show();
@@ -751,9 +844,16 @@ $("#edit-teacher-profile").click(function(){
 
 $("#add-assignment").click(function(){
 	var assignment_title = $("#assignment-title").val();
-	var submit_date = $("#submit-date").val();
+	console.log(assignment_title);
+	// var submit_date = $("#submit-date").val();
+	var submit_date = $("#submit-date").datepicker('getDate');
+			join_date = new Date(submit_date);
+		var yy = submit_date.getFullYear();		
+		var mm = submit_date.getMonth();
+		var dd = submit_date.getDate();
+			submit_date = yy+'-'+mm+'-'+dd;
 	var subject_id = $(this).attr('data');
-	if (ifBlank("Exam-title", exam_title) === false)
+	if (ifBlank("Exam-title", assignment_title) === false)
         return false;
     if (ifBlank("Submit Date", submit_date) === false)
         return false;
@@ -768,6 +868,7 @@ $("#add-assignment").click(function(){
 				$("#content-main-assignment").show();
 				$("#content-empty-assignment").hide();
 				$("#addAssignmentModal").modal('hide');
+				viewAssignment(subject_id);
 			}
 		}
 	});
@@ -779,9 +880,22 @@ $(document).delegate("#edit_teacher_profile_save", "click", function(){
 	var mname = $("#new-mname").val();
 	var lname = $("#new-lname").val();
 	var address = $("#new-address").val();
+	console.log("new-address: "+address);
 	var contact = $("#new-contact").val();
-	var dob = $("#new-dob").val();
-	var join_date = $("#new-join-date").val();
+	var dob = $("#new-dob").datepicker('getDate');
+			dob = new Date(dob);
+		var yy = dob.getFullYear();
+		var mm = dob.getMonth();
+		var dd = dob.getDate();
+			dob = yy+'-'+mm+'-'+dd;
+			console.log("dob: "+dob);
+		var join_date = $("#new-join-date").datepicker('getDate');
+			join_date = new Date(join_date);
+		var yy = join_date.getFullYear();		
+		var mm = join_date.getMonth();
+		var dd = join_date.getDate();
+			join_date = yy+'-'+mm+'-'+dd;
+			console.log(join_date);
 	if (ifBlank("First Name", fname) === false)
         return false;
     if (ifBlank("Address", address) === false)
