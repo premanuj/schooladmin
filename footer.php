@@ -1,7 +1,7 @@
   <!-- Main Footer -->
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
-          Developed by: 75way Technologies
+          Developed by: Freakoids
         </div>
         <!-- Default to the left -->
         <strong>Copyright &copy; 2015 <a href="#">Quero Contacto</a>.</strong> All rights reserved.
