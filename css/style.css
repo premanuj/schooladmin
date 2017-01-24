@@ -23,6 +23,8 @@
 #content-empty-assignment-question{display: none;}
 #add-objective-assignment-question{display: none;}
 #add-subjective-assignment-question{display: none;}
+#admin-menu{display: none;}
+#teacher-menu{display: none;}
 
 /*coustomizing date picker*/
 .ui-datepicker {

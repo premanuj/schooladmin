@@ -23,7 +23,7 @@
       <!-- Logo -->
       <a href="index2.html" class="logo">
         <span class="logo-mini"><b>Q</b>C</span>
-        <span class="logo-lg"><b>Quero</b>Contacto</span>
+        <span class="logo-lg"><b>School</b>Dashboard</span>
       </a>
       <!-- Header Navbar -->
       <nav class="navbar navbar-static-top" role="navigation">
